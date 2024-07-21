@@ -34,9 +34,6 @@ def hand_gesture(tello, frame):
 
         # Acessando as landmarks 
         for id, lm in enumerate(hand_landmarks.landmark):
-            h, w, _ = frame.shape
-            cx, cy = int(lm.x * w), int(lm.y * h)
-
             if id == 4:  # Ponta do polegar
                 thumb_tip_y = lm.y
                 thumb_tip_x = lm.x
@@ -68,7 +65,8 @@ def hand_gesture(tello, frame):
         l_hand = raised_thumb and index_tip_y < index_mcp_y and middle_tip_y > middle_mcp_y and ring_tip_y > ring_mcp_y and pinky_tip_y > pinky_mcp_y
         two_hand = index_tip_y < index_mcp_y and middle_tip_y < middle_mcp_y and ring_tip_y > ring_mcp_y and pinky_tip_y > pinky_mcp_y
         four_hand = not raised_thumb and index_tip_y < index_mcp_y and middle_tip_y < middle_mcp_y and ring_tip_y < ring_mcp_y and pinky_tip_y < pinky_mcp_y
-
+        thumb_only = raised_thumb and index_tip_y > index_mcp_y and middle_tip_y > middle_mcp_y and ring_tip_y > ring_mcp_y and pinky_tip_y > pinky_mcp_y
+        pinky_only = not raised_thumb and index_tip_y > index_mcp_y and middle_tip_y > middle_mcp_y and ring_tip_y > ring_mcp_y and pinky_tip_y < pinky_mcp_y
         # mao aberta
         if open_hand:
             cv2.putText(frame, 'FRONT', ORG, FONT, FONTSCALE, COLOR_GREEN, THICKNESS)
@@ -81,16 +79,24 @@ def hand_gesture(tello, frame):
         elif l_hand:
             cv2.putText(frame, 'LAND', ORG, FONT, FONTSCALE, COLOR_BLUE, THICKNESS)
             tello.send_cmd('land')
-            time.sleep(4)
+            time.sleep(3)
         # Dois dedos
         elif two_hand:
             cv2.putText(frame, 'TAKEOFF', ORG, FONT, FONTSCALE, COLOR_WHITE, THICKNESS)
             tello.send_cmd('takeoff')
-            time.sleep(4)
+            time.sleep(1)
         # Quatro dedos
         elif four_hand:
             cv2.putText(frame, 'BACK', ORG, FONT, FONTSCALE, COLOR_YELLOW, THICKNESS)
             tello.send_rc_control(0, -VELOCITY, 0, 0)
+        # Apenas polegar
+        elif thumb_only:
+            cv2.putText(frame, 'RIGHT', ORG, FONT, FONTSCALE, COLOR_YELLOW, THICKNESS)
+            tello.send_rc_control(VELOCITY, 0, 0, 0)
+        # Apenas mindinho
+        elif pinky_only:
+            cv2.putText(frame, 'LEFT', ORG, FONT, FONTSCALE, COLOR_YELLOW, THICKNESS)
+            tello.send_rc_control(-VELOCITY, 0, 0, 0)
 
         tello.send_rc_control(0, 0, 0, 0)
 
