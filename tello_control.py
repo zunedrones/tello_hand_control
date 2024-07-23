@@ -20,15 +20,17 @@ def moves(tello, frame):
         old_move = 'Takeoff'
         print("dei takeoff")
         time.sleep(1)
-    elif hand_classification == 'Land' and hand_classification != old_move:
+    elif hand_classification == 'Land':
+        while float(tello.get_state_field('h')) >= 13:
+            tello.send_rc_control(0, 0, -70, 0)
         tello.send_cmd('land')
         old_move = 'Land'
         print("dei land")
-        time.sleep(4)
     elif hand_classification == 'Tracking' and old_move != "Land":
         tracking(tello, rect_detect)
-    elif hand_classification == 'None' or hand_classification == 'Stop':
+    elif (hand_classification == 'None' or hand_classification == 'Stop') and old_move != 'Land':
         tello.send_rc_control(0, 0, 0, 0)
+        print("PAREI")
     
     return frame
 
