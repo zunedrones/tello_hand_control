@@ -1,6 +1,9 @@
 # tello_hand_control
 A Tello drone controled by hand gestures, using opencv, mediapipe and tensorflow.
 
+![image](https://github.com/user-attachments/assets/6d240273-a62f-492a-b1c9-ec88090aa683)
+
+
 The hand gesture detection model is built upon [another project](https://github.com/kinivi/hand-gesture-recognition-mediapipe/tree/main) that utilizes hand landmarks obtained through Mediapipe to train the model.
 
 # Requeriments
