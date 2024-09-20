@@ -13,7 +13,7 @@ def moves(tello, frame):
     actual_hand = hand_gesture_info[1][1]
     hand_classification = hand_gesture_info[1][2]
 
-    print(hand_gesture_info[1])
+    #print(hand_gesture_info[1])
     old_move = ''
     if hand_classification == 'Takeoff' and hand_classification != old_move:
         tello.send_cmd('takeoff')
@@ -26,6 +26,7 @@ def moves(tello, frame):
         tello.send_cmd('land')
         old_move = 'Land'
         print("dei land")
+        time.sleep(1)
     elif hand_classification == 'Tracking' and old_move != "Land":
         tracking(tello, rect_detect)
     elif (hand_classification == 'None' or hand_classification == 'Stop') and old_move != 'Land':

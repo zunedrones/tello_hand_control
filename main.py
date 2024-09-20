@@ -15,9 +15,9 @@ while True:
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break
 
-    """ if cv2.waitKey(1) & 0xFF == ord('t'):
+    if cv2.waitKey(1) & 0xFF == ord('t'):
         tello.send_cmd('takeoff')
-        print('dei takeoff') """
+        print('dei takeoff') 
 
 tello.end_tello()
 cv2.destroyAllWindows()

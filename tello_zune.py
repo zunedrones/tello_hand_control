@@ -300,13 +300,13 @@ class TelloZune:
         '''
         Inicializa o drone tello. Conecta, testa se é possível voar, habilita a transmissão por vídeo.
         '''
-        user_input = input("Simular? (s/n): ").lower()
+        """ user_input = input("Simular? (s/n): ").lower()
         if user_input == "s":
             self.simulate = True
             print("Simulando...")
         else:
             self.simulate = False
-            print("Vamos voar...")
+            print("Vamos voar...") """
 
         self.wait_till_connected()
         self.start_communication()
@@ -323,9 +323,9 @@ class TelloZune:
         '''
         Finaliza o drone Tello. Pousa se possivel, encerra o video e a comunicacao.
         '''
-        if not self.simulate:
-            self.send_rc_control(0, 0, 0, 0)
-            self.send_cmd("land")
+        # if not self.simulate:
+        self.send_rc_control(0, 0, 0, 0)
+        self.send_cmd("land")
         self.stop_video()
         self.stop_communication()
         print("Finalizei")
