@@ -28,7 +28,7 @@ python main.py
 ```
 * You need to be connected to the Tello's Wi-Fi network to run the program.
 
-# How control the tello drone
+# How to control the tello drone
 
 | Sign            | Command  |
 |-----------------|----------|
